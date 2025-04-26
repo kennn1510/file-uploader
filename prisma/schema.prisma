@@ -15,15 +15,48 @@ datasource db {
 }
 
 model User {
-  id    Int     @id      @default(autoincrement())
-  email String  @unique
-  name  String?
+  id             String          @id @default(uuid())
+  age            Int
+  name           String
+  email          String
+  role           Role            @default(BASIC)
+  writtenPosts   Post[]          @relation("WrittenPosts")
+  favoritePosts  Post[]          @relation("FavoritePosts")
+  userPreference UserPreference?
+
+  @@unique([age, name])
+  @@index([email])
 }
 
-model Session {
-  id        String    @id
-  sid       String    @unique
-  data      String    @db
-  expiresAt DateTime
+model UserPreference {
+  id           String  @id @default(uuid())
+  emailUpdates Boolean
+  user         User    @relation(fields: [userId], references: [id])
+  userId       String  @unique
+}
 
+model Post {
+  title         String
+  averateRating Float
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  author        User      @relation("WrittenPosts", fields: [authorId], references: [id])
+  authorId      String
+  favoritedBy   User?     @relation("FavoritePosts", fields: [favoritedById], references: [id])
+  favoritedById String?
+  Category      Category? @relation(fields: [categoryId], references: [id])
+  categoryId    String?
+
+  @@id([title, authorId])
+}
+
+model Category {
+  id    String @id @default(uuid())
+  name  String @unique
+  posts Post[]
+}
+
+enum Role {
+  BASIC
+  ADMIN
 }

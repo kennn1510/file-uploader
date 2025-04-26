@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "devStart": "node --watch app.js"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +16,11 @@
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "passport": "^0.7.0",
-    "pg": "^8.15.6",
+    "pg": "^8.15.6"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^10.1.2",
+    "prettier": "^3.5.3",
     "prisma": "^6.6.0"
   }
 }

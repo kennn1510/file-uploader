@@ -3,7 +3,7 @@ const express = require("express");
 const expressSession = require("express-session");
 const { PrismaClient } = require("./generated/prisma/client");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
-const LocalStrategy = require("passport-local").LocalStrategy;
+const LocalStrategy = require("passport-local");
 const bcrypt = require("bcryptjs");
 const path = require("path");
 const passport = require("passport");
@@ -80,8 +80,7 @@ passport.serializeUser(function (user, cb) {
   process.nextTick(function () {
     return cb(null, {
       id: user.id,
-      username: user.username,
-      picture: user.picture,
+      email: user.email,
     });
   });
 });

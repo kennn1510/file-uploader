@@ -63,23 +63,46 @@ h6 {
 }
 
 body {
-  background: #94cfee;
+  background: skyblue;
   background: linear-gradient(
     180deg,
-    rgba(148, 207, 238, 1) 0%,
-    rgba(221, 240, 247, 1) 50%,
-    rgba(246, 248, 252, 1) 100%
+    skyblue 0%,
+    lightsteelblue 50%,
+    whitesmoke 100%
   );
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 ul {
   display: flex;
-  list-style: none;
-  gap: 4vw;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-.nav-container {
+nav a {
+  color: black;
+  text-decoration: none;
+  padding: 0.5em 1em;
+}
+
+nav a:hover {
+  background-color: whitesmoke;
+  border-radius: 25%;
+  padding: 0.6em 1.2em;
+}
+
+nav.container {
   display: flex;
   justify-content: space-between;
   padding: 1vw;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

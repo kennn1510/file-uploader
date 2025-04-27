@@ -1,25 +1,41 @@
 require("dotenv").config();
 const express = require("express");
-const app = express();
+const expressSession = require("express-session");
 const { PrismaClient } = require("./generated/prisma/client");
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+const LocalStrategy = require("passport-local").LocalStrategy;
+const bcrypt = require("bcryptjs");
+const path = require("path");
+const passport = require("passport");
+
+const app = express();
 const prisma = new PrismaClient();
 
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
+app.use(
+  expressSession({
+    cookie: {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // ms
+    },
+    secret: "my secret key",
+    resave: false,
+    saveUninitialized: false,
+    store: new PrismaSessionStore(new PrismaClient(), {
+      checkPeriod: 2 * 60 * 1000, // ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
+  })
+);
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, "public")));
+
+passport.use(new LocalStrategy());
+
 async function main() {
-  await prisma.user.deleteMany();
-  const user = await prisma.user.createMany({
-    data: [
-      {
-        name: "Ken",
-        email: "ken@test.com",
-        age: 23,
-      },
-      {
-        name: "Sally",
-        email: "sally@test.com",
-        age: 32,
-      },
-    ],
-  });
+  const user = await prisma.user.findMany();
 
   console.log(user);
 }

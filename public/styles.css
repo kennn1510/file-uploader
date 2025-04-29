@@ -175,6 +175,23 @@ form {
   flex-direction: column;
 }
 
+form > button {
+  background-color: #292933;
+  color: white;
+  border-radius: 1rem;
+  padding: 0.5rem 0;
+  transition-duration: 0.4s;
+}
+
+form > button:hover {
+  cursor: pointer;
+  background-color: #cbf3fd;
+  color: black;
+  border: 2px solid #cbf3fd;
+  font-weight: bold;
+  font-size: larger;
+}
+
 body > footer {
   grid-area: footer;
 }

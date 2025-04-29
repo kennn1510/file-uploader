@@ -172,10 +172,13 @@ main {
 
 h1 span {
   display: inline-block;
-  transition: transform 0.3s ease-in-out;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 h1 span:hover {
+  color: #1a99ee;
   transform: translateY(-10px);
 }
 

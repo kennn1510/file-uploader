@@ -127,6 +127,31 @@ nav.container {
   padding: 1vw;
 }
 
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.main-container {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  background: #c6f2fd;
+  background: linear-gradient(
+    180deg,
+    rgba(198, 242, 253, 1) 0%,
+    rgba(237, 251, 254, 1) 50%,
+    rgba(254, 254, 254, 1) 100%
+  );
+  padding: 4%;
+  border-radius: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
 footer {
   display: flex;
   justify-content: center;

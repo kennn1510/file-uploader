@@ -9,6 +9,7 @@ const path = require("path");
 const passport = require("passport");
 const homeRouter = require("./routes/home");
 const loginRouter = require("./routes/login");
+const signupRouter = require("./routes/signup");
 
 const app = express();
 const prisma = new PrismaClient();
@@ -107,6 +108,7 @@ main()
 
 app.use("/", homeRouter);
 app.use("/login", loginRouter);
+app.use("/signup", signupRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${process.env.PORT}!`);

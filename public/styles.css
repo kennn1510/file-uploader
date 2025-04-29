@@ -62,6 +62,11 @@ h6 {
   text-wrap: balance;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   background: skyblue;
   background: linear-gradient(
@@ -74,6 +79,9 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 ul {

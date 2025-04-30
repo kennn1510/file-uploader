@@ -6,11 +6,19 @@
     <li>
       <a href="/">Home</a>
     </li>
-    <li>
-      <a href="/login">Login</a>
-    </li>
-    <li>
-      <a href="/signup">Sign Up</a>
-    </li>
+    <% if (locals.user) { %>
+     <li>
+      <form action="/logout" method="post">
+        <button type="submit">Log Out</button>
+      </form>
+     </li>
+    <% } else { %>
+      <li>
+        <a href="/login">Login</a>
+      </li>
+      <li>
+        <a href="/signup">Sign Up</a>
+      </li>
+    <% } %>
   </ul>
 </nav>

@@ -84,7 +84,9 @@ app.use((req, res, next) => {
   next();
 });
 
-async function main() {}
+async function main() {
+  console.log(await prisma.user.findMany());
+}
 
 main()
   .catch((e) => {
@@ -97,6 +99,14 @@ main()
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
+app.use("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${process.env.PORT}!`);

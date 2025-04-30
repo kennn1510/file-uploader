@@ -51,9 +51,9 @@ passport.use(
         });
       }
 
-      // const passwordMatch = await bcrypt.compare(password, user.password);
+      const passwordMatch = await bcrypt.compare(password, user.password);
 
-      if (password !== user.password) {
+      if (!passwordMatch) {
         return done(null, false, { message: "Incorrect password" });
       }
 

@@ -41,13 +41,13 @@ router.post(
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.render("signup", { errors: errors.array() });
     }
 
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-      await prisma.user.create({
+      const user = await prisma.user.create({
         data: {
           username: req.body.username,
           password: hashedPassword,

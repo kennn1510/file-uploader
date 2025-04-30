@@ -1,7 +1,14 @@
-<% if (locals.errors) {%>
+<% if (locals.messages) { %>
   <ul>
-      <% errors.forEach((error) => {%>
-          <li><%= error.msg || error %></li>
-      <%});%>
+    <% messages.forEach((message) => { %>
+      <li><%= message %></li>
+    <% }) %>
   </ul>
-<%}%>
+<% } %>
+<% if (locals.errors) { %>
+  <ul>
+      <% errors.forEach((error) => { %>
+          <li><%= error.msg || error %></li>
+      <% }) %>
+  </ul>
+<% } %>

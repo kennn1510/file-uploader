@@ -3,15 +3,13 @@ const express = require("express");
 const expressSession = require("express-session");
 const { PrismaClient } = require("./generated/prisma/client");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
-const LocalStrategy = require("passport-local");
-const bcrypt = require("bcryptjs");
+const prisma = new PrismaClient();
 const path = require("path");
-const passport = require("passport");
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
 const app = express();
-const prisma = new PrismaClient();
+const passport = require("./config/passport-config");
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -34,50 +32,6 @@ app.use(
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false })); // Parses URL-encoded request bodies and processes into req.body
 app.use(express.static(path.join(__dirname, "public")));
-
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await prisma.user.findUnique({
-        where: {
-          username: username,
-        },
-      });
-
-      if (!user) {
-        return done(null, false, {
-          message:
-            "There is no account associated with this email. Do you want to sign up?",
-        });
-      }
-
-      const passwordMatch = await bcrypt.compare(password, user.password);
-
-      if (!passwordMatch) {
-        return done(null, false, { message: "Incorrect password" });
-      }
-
-      return done(null, user);
-    } catch (error) {
-      return done(error);
-    }
-  })
-);
-
-passport.serializeUser((user, done) => {
-  return done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: { id: id },
-    });
-    return done(null, user);
-  } catch (error) {
-    return done(error);
-  }
-});
 
 app.use((req, res, next) => {
   res.locals.user = req.user;

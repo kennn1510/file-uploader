@@ -7,10 +7,9 @@ const LocalStrategy = require("passport-local");
 const bcrypt = require("bcryptjs");
 const path = require("path");
 const passport = require("passport");
-const homeRouter = require("./routes/home");
+const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
-
 const app = express();
 const prisma = new PrismaClient();
 
@@ -22,7 +21,7 @@ app.use(
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // ms
     },
-    secret: "my secret key",
+    secret: "my secret keyboard cat",
     resave: false,
     saveUninitialized: false,
     store: new PrismaSessionStore(new PrismaClient(), {
@@ -33,14 +32,15 @@ app.use(
   })
 );
 app.use(passport.session());
+app.use(express.urlencoded({ extended: false })); // Parses URL-encoded request bodies and processes into req.body
 app.use(express.static(path.join(__dirname, "public")));
 
 passport.use(
-  new LocalStrategy(async (email, password, done) => {
+  new LocalStrategy(async (username, password, done) => {
     try {
       const user = await prisma.user.findUnique({
         where: {
-          email: email,
+          username: username,
         },
       });
 
@@ -51,9 +51,9 @@ passport.use(
         });
       }
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
+      // const passwordMatch = await bcrypt.compare(password, user.password);
 
-      if (!passwordMatch) {
+      if (password !== user.password) {
         return done(null, false, { message: "Incorrect password" });
       }
 
@@ -64,39 +64,27 @@ passport.use(
   })
 );
 
-// passport.serializeUser((user, done) => {
-//   // might not be secure to have email here, just try being able to access the email
-//   // should be able to access through req.user
-//   return done(null, { id: user.id, email: user.email });
-// });
+passport.serializeUser((user, done) => {
+  return done(null, user.id);
+});
 
-// passport.deserializeUser(async (id, done) => {
-//   try {
-//   } catch (error) {
-//     done(error);
-//   }
-// });
-
-passport.serializeUser(function (user, cb) {
-  process.nextTick(function () {
-    return cb(null, {
-      id: user.id,
-      email: user.email,
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: id },
     });
-  });
+    return done(null, user);
+  } catch (error) {
+    return done(error);
+  }
 });
 
-passport.deserializeUser(function (user, cb) {
-  process.nextTick(function () {
-    return cb(null, user);
-  });
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
 });
 
-async function main() {
-  const user = await prisma.user.findMany();
-
-  console.log(user);
-}
+async function main() {}
 
 main()
   .catch((e) => {
@@ -106,7 +94,7 @@ main()
     await prisma.$disconnect();
   });
 
-app.use("/", homeRouter);
+app.use("/", indexRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 

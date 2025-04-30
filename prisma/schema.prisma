@@ -9,9 +9,9 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  email    String @unique
-  password String @default("temporaryPassword")
+  id       Int    @id @default(autoincrement())
+  username String @unique @default("default_user")
+  password String
 }
 
 model Session {

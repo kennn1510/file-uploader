@@ -33,18 +33,24 @@
   <body>
     <%- include("./partials/nav") %>
     <main>
-      <h1>
-        <span>C</span>
-        <span>l</span>
-        <span>o</span>
-        <span>u</span>
-        <span>d</span>
-        <span>S</span>
-        <span>h</span>
-        <span>a</span>
-        <span>r</span>
-        <span>e</span>
-      </h1>
+      <div class="main-container">
+        <h1>
+          <span>C</span>
+          <span>l</span>
+          <span>o</span>
+          <span>u</span>
+          <span>d</span>
+          <span>S</span>
+          <span>h</span>
+          <span>a</span>
+          <span>r</span>
+          <span>e</span>
+        </h1>
+        <% if (locals.user) { %>
+          <p>Welcome back!</p>
+          <p><%= locals.user.username %></p>
+        <% } %>
+      </div>
     </main>
     <%- include("./partials/footer") %>
   </body>

@@ -39,9 +39,11 @@ router.post(
   userValidationRules,
   async (req, res, next) => {
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
-      return res.render("signup", { errors: errors.array() });
+      return res.render("signup", {
+        errors: errors.array(),
+        username: req.body.username,
+      });
     }
 
     try {

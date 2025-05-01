@@ -24,13 +24,15 @@ const loginValidationRules = [
 const validateLogin = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.render("login", { errors: errors.array(), values: req.body });
+    return res.render("login", {
+      errors: errors.array(),
+      username: req.body.username,
+    });
   }
 };
 
 router.get("/", (req, res, next) => {
-  res.render("login", { messages: req.session.messages });
-  req.session.messages = [];
+  res.render("login");
 });
 router.post(
   "/",
@@ -40,7 +42,6 @@ router.post(
   passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
-    failureMessage: true, // oh ho, I won't need this anymore because I have express validator above ohhhhh, gotta do it later. my brain is fried.
   })
 );
 

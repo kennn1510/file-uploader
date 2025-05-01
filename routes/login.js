@@ -29,6 +29,7 @@ const validateLogin = (req, res, next) => {
       username: req.body.username,
     });
   }
+  next();
 };
 
 router.get("/", (req, res, next) => {

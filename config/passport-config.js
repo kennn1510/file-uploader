@@ -5,39 +5,32 @@ const { PrismaClient } = require("../generated/prisma/client");
 const prisma = new PrismaClient();
 
 passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "username",
-      passwordField: "password",
-      failureFlash: true,
-    },
-    async (username, password, done) => {
-      try {
-        const user = await prisma.user.findUnique({
-          where: {
-            username: username,
-          },
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          username: username,
+        },
+      });
+
+      if (!user) {
+        return done(null, false, {
+          message:
+            "There is no account associated with this email. Do you want to sign up?",
         });
-
-        if (!user) {
-          return done(null, false, {
-            message:
-              "There is no account associated with this email. Do you want to sign up?",
-          });
-        }
-
-        const passwordMatch = await bcrypt.compare(password, user.password);
-
-        if (!passwordMatch) {
-          return done(null, false, { message: "Incorrect password." });
-        }
-
-        return done(null, user);
-      } catch (error) {
-        return done(error);
       }
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (!passwordMatch) {
+        return done(null, false, { message: "Incorrect password." });
+      }
+
+      return done(null, user);
+    } catch (error) {
+      return done(error);
     }
-  )
+  })
 );
 
 passport.serializeUser((user, done) => {

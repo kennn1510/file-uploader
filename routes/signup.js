@@ -15,11 +15,20 @@ const userValidationRules = [
   body("username")
     .notEmpty()
     .isEmail()
-    .withMessage("Username needs to be a valid email"),
+    .withMessage("Username needs to be a valid email.")
+    .custom(async (username) => {
+      const user = await prisma.user.findUnique({
+        where: { username: username },
+      });
+      if (user) {
+        throw new Error();
+      }
+    })
+    .withMessage("Username already taken."),
   body("password")
     .notEmpty()
     .isLength({ min: 8 })
-    .withMessage("Password must be a minimum of 8 characters"),
+    .withMessage("Password must be a minimum of 8 characters."),
   body("confirmpassword")
     .notEmpty()
     .custom((value, { req }) => {

@@ -34,18 +34,7 @@
     <%- include("./partials/nav") %>
     <main>
       <div class="main-container">
-        <h1>
-          <span>C</span>
-          <span>l</span>
-          <span>o</span>
-          <span>u</span>
-          <span>d</span>
-          <span>S</span>
-          <span>h</span>
-          <span>a</span>
-          <span>r</span>
-          <span>e</span>
-        </h1>
+        <h1 class="letter-animation">CloudShare</h1>
         <% if (locals.user) { %>
           <p>Welcome back!</p>
           <p><%= locals.user.username %></p>
@@ -53,5 +42,17 @@
       </div>
     </main>
     <%- include("./partials/footer") %>
+    <script>
+      const heading = document.querySelector(".letter-animation");
+      const text = heading.textContent;
+      heading.textContent = "";
+
+      for (let i = 0; i < text.length; i++) {
+        const span = document.createElement("span");
+        span.textContent = text[i];
+        span.classList.add("letter");
+        heading.appendChild(span);
+      }
+    </script>
   </body>
 </html>

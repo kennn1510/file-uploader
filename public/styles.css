@@ -180,6 +180,37 @@ main {
   gap: 1rem;
 }
 
+.letter-animation {
+  display: block;
+}
+
+.letter {
+  display: inline-block;
+  animation: letterMove 1s ease-in-out infinite alternate;
+}
+
+@keyframes letterMove {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-8px);
+    opacity: 0.7;
+  }
+}
+
+/* Optional: Stagger the animation */
+.letter:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.letter:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+/* Add more delays for subsequent letters */
+
 .main-container > p > span {
   font-size: 1rem;
   background-color: #f1f4f9;
@@ -187,6 +218,7 @@ main {
   padding: 1rem;
   box-shadow: 0px 4px 4px 2px #c4e8f5;
 }
+
 .errors-list {
   text-align: left;
 }

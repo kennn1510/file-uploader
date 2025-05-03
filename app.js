@@ -53,7 +53,7 @@ main()
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
-app.use("/logout", (req, res, next) => {
+app.post("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) {
       return next(err);

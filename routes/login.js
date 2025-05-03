@@ -4,21 +4,38 @@ const passport = require("passport");
 const { body, validationResult } = require("express-validator");
 
 const loginSanitizationRules = [
-  body("username").trim().escape(),
+  body("email").trim().normalizeEmail(),
   body("password").trim(),
 ];
 
 const loginValidationRules = [
-  body("username")
+  body("email")
     .notEmpty()
-    .withMessage("Username is required.")
+    .withMessage("Email is required.")
     .isEmail()
-    .withMessage("Invalid username."),
+    .withMessage("Invalid email.")
+    .custom(async (email) => {
+      const user = await prisma.user.findUnique({
+        where: { email: email },
+      });
+      if (!user) {
+        throw new Error();
+      }
+    })
+    .withMessage("No account associated with that email."),
   body("password")
     .notEmpty()
     .withMessage("Password is required.")
     .isLength({ min: 8 })
-    .withMessage("Password must be a minimum of 8 characters"),
+    .withMessage("Password must be at least 8 characters long.")
+    .matches(/[a-z]/)
+    .withMessage("Password must contain at least one lowercase letter.")
+    .matches(/[A-Z]/)
+    .withMessage("Password must contain at least one uppercase letter.")
+    .matches(/[0-9]/)
+    .withMessage("Password must contain at least one number.")
+    .matches(/[^a-zA-Z0-9\s]/) // Matches any non-alphanumeric, non-whitespace character
+    .withMessage("Password must contain at special character."),
 ];
 
 const validateLogin = (req, res, next) => {
@@ -26,7 +43,7 @@ const validateLogin = (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.render("login", {
       errors: errors.array(),
-      username: req.body.username,
+      email: req.body.email,
     });
   }
   next();

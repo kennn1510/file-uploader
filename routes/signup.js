@@ -6,31 +6,42 @@ const prisma = new PrismaClient();
 const { body, validationResult } = require("express-validator");
 
 const userSanitizationRules = [
-  body("username").trim().escape(),
+  body("email").trim().normalizeEmail(),
   body("password").trim(),
   body("confirmpassword").trim(),
 ];
 
 const userValidationRules = [
-  body("username")
+  body("email")
     .notEmpty()
+    .withMessage("Email is required.")
     .isEmail()
-    .withMessage("Username needs to be a valid email.")
-    .custom(async (username) => {
+    .withMessage("Invalid email.")
+    .custom(async (email) => {
       const user = await prisma.user.findUnique({
-        where: { username: username },
+        where: { email: email },
       });
       if (user) {
         throw new Error();
       }
     })
-    .withMessage("Username already taken."),
+    .withMessage("Email already taken."),
   body("password")
     .notEmpty()
+    .withMessage("Password is required.")
     .isLength({ min: 8 })
-    .withMessage("Password must be a minimum of 8 characters."),
+    .withMessage("Password must be at least 8 characters long.")
+    .matches(/[a-z]/)
+    .withMessage("Password must contain at least one lowercase letter.")
+    .matches(/[A-Z]/)
+    .withMessage("Password must contain at least one uppercase letter.")
+    .matches(/[0-9]/)
+    .withMessage("Password must contain at least one number.")
+    .matches(/[^a-zA-Z0-9\s]/) // Matches any non-alphanumeric, non-whitespace character
+    .withMessage("Password must contain at special character."),
   body("confirmpassword")
     .notEmpty()
+    .withMessage("Confirm password is required.")
     .custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error("Confirmation password does not match password.");
@@ -51,7 +62,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.render("signup", {
         errors: errors.array(),
-        username: req.body.username,
+        email: req.body.email,
       });
     }
 
@@ -60,7 +71,7 @@ router.post(
 
       const user = await prisma.user.create({
         data: {
-          username: req.body.username,
+          email: req.body.email,
           password: hashedPassword,
         },
       });

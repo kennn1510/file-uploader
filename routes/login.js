@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const router = Router();
 const passport = require("passport");
+const { PrismaClient } = require("../generated/prisma/client");
+const prisma = new PrismaClient();
 const { body, validationResult } = require("express-validator");
 
 const loginSanitizationRules = [

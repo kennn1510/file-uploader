@@ -50,7 +50,7 @@ const userValidationRules = [
     }),
 ];
 
-router.get("/", (req, res, next) => {
+router.get("/", (req, res) => {
   res.render("signup");
 });
 router.post(

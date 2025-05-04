@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -21,26 +22,46 @@
       href="/favicon/favicon-16x16.png"
     />
     <link rel="manifest" href="/favicon/site.webmanifest" />
+    <!-- Ninito Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
       rel="stylesheet"
     />
+    <!-- Folder Static Icon Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=folder" />
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="/styles.css" />
-    <title>CloudShare</title>
+    <title>Your Drive</title>
   </head>
   <body>
     <%- include("./partials/nav") %>
     <main>
       <div class="main-container">
-        <h1 class="letter-animation">CloudShare</h1>
+        <h1 class="letter-animation">My&nbsp;Drive</h1>
         <% if (locals.user) { %>
-          <p>Welcome back!</p>
-          <p><%= user.email %></p>
-          <a href="/drive">
-            <button>Go to your Drive</button>
-          </a>
+          <p>Create folders to store your files!</p>
+          <form action="/drive/folder" method="post">
+            <input type="text" placeholder="New folder name" name="folder_name">
+            <button type="submit">New folder</button>
+          </form>
+          <!-- Next up, make the folder look pretty and clickable -->
+          <div class="folder">
+            <% if (locals.userFolders) { %>
+              <% if (locals.msg) { %>
+                <p><%= msg %></p>
+              <% } %>
+              <% for (const folderName of Object.keys(userFolders)) { %>
+                <p><span class="material-symbols-outlined">folder</span><%= folderName %></p>
+              <% } %>
+            <% } %>
+          </div>
+          <!-- <form action="" method="post" enctype="multipart/form-data">
+            <input type="file" name="uploaded_file">
+            <input type="text" placeholder="What do you want to say to your friends?" name="user_message">
+            <input type="submit" value="Click to share with your friends!">
+          </form> -->
         <% } %>
       </div>
     </main>

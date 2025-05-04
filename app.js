@@ -7,11 +7,11 @@ const prisma = new PrismaClient();
 const path = require("path");
 const indexRouter = require("./routes/index");
 const loginRouter = require("./routes/login");
+const logoutRouter = require("./routes/logout");
 const signupRouter = require("./routes/signup");
+const driveRouter = require("./routes/drive");
 const app = express();
 const passport = require("./config/passport-config");
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -43,6 +43,7 @@ app.use((req, res, next) => {
 async function main() {
   console.log(await prisma.user.findMany());
 }
+
 main()
   .catch((e) => {
     console.error(e.message);
@@ -53,19 +54,9 @@ main()
 
 app.use("/", indexRouter);
 app.use("/login", loginRouter);
+app.use("/logout", logoutRouter);
 app.use("/signup", signupRouter);
-app.post("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-  });
-});
-app.post("/upload", upload.single("uploaded_file"), (req, res) => {
-  console.log(req.file);
-  console.log(req.body);
-});
+app.use("/drive", driveRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Example app listening on port ${process.env.PORT}!`);

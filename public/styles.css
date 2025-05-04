@@ -67,6 +67,7 @@ h6 {
 
 /* Start of my project */
 :root {
+  --darkgray: #292933;
   --blue: #35aeff;
   --skyblue: skyblue;
   --lightsteelblue: lightsteelblue;
@@ -101,7 +102,6 @@ body {
     "header" auto
     "main" 1fr
     "footer" auto / 1fr;
-  min-height: 100vh;
 }
 
 nav {
@@ -172,6 +172,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: auto;
 }
 
 .main-container {
@@ -181,8 +182,9 @@ main {
   padding: 4%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1rem;
+  overflow: auto;
+  text-align: center;
 }
 
 .letter-animation {
@@ -255,6 +257,12 @@ main {
   box-shadow: 0 1px 8px 3px var(--skyblue);
 }
 
+.folder {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .errors-list {
   text-align: left;
 }
@@ -265,7 +273,7 @@ form {
 }
 
 .submit-button {
-  background-color: #292933;
+  background-color: var(--darkgray);
   color: white;
   border-radius: 1rem;
   padding: 0.5rem 0;
@@ -274,9 +282,9 @@ form {
 
 .submit-button:hover {
   cursor: pointer;
-  background-color: #cbf3fd;
+  background-color: var(--skyblue);
   color: black;
-  border: 2px solid #cbf3fd;
+  border: 2px solid var(--darkgray);
   font-weight: bold;
   font-size: larger;
 }

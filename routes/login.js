@@ -51,7 +51,7 @@ const validateLogin = (req, res, next) => {
   next();
 };
 
-router.get("/", (req, res, next) => {
+router.get("/", (req, res) => {
   res.render("login");
 });
 router.post(

@@ -3,27 +3,26 @@
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
 
+/* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* 2. Remove default margin */
 * {
   margin: 0;
 }
 
+/* 3. Enable keyword animations */
 @media (prefers-reduced-motion: no-preference) {
   html {
     interpolate-size: allow-keywords;
   }
 }
 
-body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
+/* 6. Improve media defaults */
 img,
 picture,
 video,
@@ -33,6 +32,7 @@ svg {
   max-width: 100%;
 }
 
+/* 7. Inherit fonts for form controls */
 input,
 button,
 textarea,
@@ -40,6 +40,7 @@ select {
   font: inherit;
 }
 
+/* 8. Avoid text overflows */
 p,
 h1,
 h2,
@@ -50,9 +51,11 @@ h6 {
   overflow-wrap: break-word;
 }
 
+/* 9. Improve line wrapping */
 p {
   text-wrap: pretty;
 }
+
 h1,
 h2,
 h3,
@@ -62,32 +65,43 @@ h6 {
   text-wrap: balance;
 }
 
+/* Start of my project */
+:root {
+  --blue: #35aeff;
+  --skyblue: skyblue;
+  --lightsteelblue: lightsteelblue;
+  --whitesmoke: whitesmoke;
+  --snow: snow;
+}
+
 html,
 body {
   height: 100%;
 }
 
 body {
+  /* 4. Add accessible line-height */
+  line-height: 1.5;
+
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
   background: skyblue;
   background: linear-gradient(
     180deg,
-    skyblue 0%,
-    lightsteelblue 50%,
-    whitesmoke 100%
+    var(--skyblue) 0%,
+    var(--lightsteelblue) 50%,
+    var(--whitesmoke) 100%
   );
-
-  font-family: "Nunito", sans-serif;
+  font-family: Nunito, sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto;
-  grid-template-areas:
-    "header"
-    "main"
-    "footer";
+  grid-template:
+    "header" auto
+    "main" 1fr
+    "footer" auto / 1fr;
+  min-height: 100vh;
 }
 
 nav {
@@ -103,12 +117,12 @@ nav.container > ul {
   padding: 0;
 }
 
-nav.container > ul li:first-child {
-  margin-right: auto;
-}
-
 nav.container > ul li {
   position: relative;
+}
+
+nav.container > ul li:first-child {
+  margin-right: auto;
 }
 
 nav.container > ul li::before {
@@ -119,7 +133,7 @@ nav.container > ul li::before {
   width: 100%;
   height: 100%;
   border-radius: 25%;
-  border: 2px solid currentColor;
+  border: 2px solid currentcolor;
   clip-path: inset(0 100% 0 0);
   transition: clip-path 0.7s ease;
   pointer-events: none;
@@ -137,9 +151,10 @@ nav.container > ul li a {
   width: 100%;
   height: 100%;
 }
+
 nav.container > ul li:hover {
-  background-color: whitesmoke;
-  color: #0284bb;
+  background-color: var(--skyblue);
+  color: var(--whitesmoke);
   border-radius: 25%;
 }
 
@@ -151,13 +166,8 @@ nav.container > ul li > form > button {
   color: inherit;
 }
 
-body > main {
-  grid-area: main;
-  overflow: auto;
-  padding: 15px 5px 10px 5px;
-}
-
 main {
+  grid-area: main;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -165,13 +175,8 @@ main {
 }
 
 .main-container {
-  background: #c6f2fd;
-  background: linear-gradient(
-    180deg,
-    rgba(198, 242, 253, 1) 0%,
-    rgba(237, 251, 254, 1) 50%,
-    rgba(254, 254, 254, 1) 100%
-  );
+  background: var(--snow);
+  background: linear-gradient(180deg, var(--snow) 0%, var(--skyblue) 100%);
   border-radius: 1rem;
   padding: 4%;
   display: flex;
@@ -186,21 +191,26 @@ main {
 
 .letter {
   display: inline-block;
-  animation: letterMove 1s ease-in-out infinite alternate;
+  animation: letter-move 1s ease-in-out infinite alternate;
+  transition: color 0.3s ease;
 }
 
-@keyframes letterMove {
+@keyframes letter-move {
   0% {
     transform: translateY(0);
     opacity: 1;
   }
+
   100% {
     transform: translateY(-8px);
     opacity: 0.7;
   }
 }
 
-/* Optional: Stagger the animation */
+.letter:hover {
+  color: var(--blue);
+}
+
 .letter:nth-child(2) {
   animation-delay: 0.1s;
 }
@@ -209,34 +219,44 @@ main {
   animation-delay: 0.2s;
 }
 
-/* Add more delays for subsequent letters */
+.letter:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.letter:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+.letter:nth-child(6) {
+  animation-delay: 0.5s;
+}
+
+.letter:nth-child(7) {
+  animation-delay: 0.6s;
+}
+
+.letter:nth-child(8) {
+  animation-delay: 0.7s;
+}
+
+.letter:nth-child(9) {
+  animation-delay: 0.8s;
+}
+
+.letter:nth-child(10) {
+  animation-delay: 0.9s;
+}
 
 .main-container > p > span {
   font-size: 1rem;
-  background-color: #f1f4f9;
+  background-color: var(--snow);
   border-radius: 1rem;
   padding: 1rem;
-  box-shadow: 0px 4px 4px 2px #c4e8f5;
+  box-shadow: 0 1px 8px 3px var(--skyblue);
 }
 
 .errors-list {
   text-align: left;
-}
-
-form > p > a {
-  color: #8acdea;
-}
-
-h1 span {
-  display: inline-block;
-  transition:
-    color 0.3s ease,
-    transform 0.3s ease;
-}
-
-h1 span:hover {
-  color: #35aeff;
-  transform: translateY(-10px);
 }
 
 form {
@@ -261,11 +281,8 @@ form {
   font-size: larger;
 }
 
-body > footer {
-  grid-area: footer;
-}
-
 footer {
+  grid-area: footer;
   display: flex;
   justify-content: center;
   align-items: center;

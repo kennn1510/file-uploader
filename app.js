@@ -10,6 +10,8 @@ const loginRouter = require("./routes/login");
 const signupRouter = require("./routes/signup");
 const app = express();
 const passport = require("./config/passport-config");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -59,6 +61,10 @@ app.post("/logout", (req, res, next) => {
     }
     res.redirect("/");
   });
+});
+app.post("/upload", upload.single("uploaded_file"), (req, res) => {
+  console.log(req.file);
+  console.log(req.body);
 });
 
 app.listen(process.env.PORT, () => {

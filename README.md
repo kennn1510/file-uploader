@@ -1,5 +1,48 @@
 # file-uploader
 
-WIP
+A simple cloud storage service inspired by Google Drive, allowing users to upload and organize files securely.
 
-1. For prisma to work, use npx prisma generate to make the generated directory
+## Features
+
+- **User Authentication**: Secure session-based authentication with Passport.js.
+- **File Uploads**: Users can upload files, initially stored in the filesystem via Multer.
+- **Folder Management**: CRUD operations for folders to organize files.
+- **File Details & Downloads**: View file metadata and download files.
+- **Cloud Storage Integration**: Files are stored in Cloudinary or Supabase with URLs saved in the database.
+- **Folder Sharing (Extra Credit)**: Users can generate shareable links with expiration settings.
+
+## Tech Stack
+
+- **Backend**: Node.js, Express.js, Prisma ORM
+- **Authentication**: Passport.js with Prisma session store
+- **File Handling**: Multer middleware
+- **Database**: PostgreSQL (or preferred Prisma-supported database)
+- **Cloud Storage**: Cloudinary or Supabase
+
+## Installation
+
+```bash
+git clone https://github.com/your-username/file-uploader.git
+cd file-uploader
+npm install
+```
+
+```prisma
+npx prisma generate
+npx prisma migrate dev
+```
+
+```npm
+npm start
+```
+
+## Useful Commands
+
+- npx prisma generate
+- npx prisma migrate dev
+- npm start
+
+## Don't forget to create your own .env file (and make sure it is in your .gitignore)
+
+- DATABASE_URL=""
+- PORT=""

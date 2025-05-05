@@ -14,6 +14,13 @@ model User {
   password String
 }
 
+model Folder {
+  id   Int    @default(autoincrement())
+  name String
+
+  @@id([id, name])
+}
+
 model Session {
   id        String   @id
   sid       String   @unique

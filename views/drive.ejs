@@ -46,21 +46,28 @@
             <input type="text" placeholder="New folder name" name="folder_name">
             <button type="submit">New folder</button>
           </form>
-          <!-- Next up, make the folder look pretty and clickable -->
-          <div class="folder">
-            <% if (locals.userFolders) { %>
-              <% if (locals.msg) { %>
-                <p><%= msg %></p>
+          <% if (locals.newFolder) { %>
+            <p>Successfully created folder: <%= newFolder.name %> with ID: <%= newFolder.id %></p> 
+          <% } %>
+          <% if (locals.userFolders) { %>
+            <form action="/drive/upload" method="POST" enctype="multipart/form-data">
+              <fieldset>
+                <legend>Existing Folders:</legend>
+                <% userFolders.forEach(folder => { %>
+                  <div>
+                    <span class="material-symbols-outlined">folder</span>
+                    <input type="radio" name="folderId" id="<%= folder.name %>" value="<%= folder.id %>" required>
+                    <label for="<%= folder.name %>"><%= folder.name %></label>
+                  </div>
+                <% }) %>
+              </fieldset>
+              <input type="file" name="uploaded_file">
+              <button type="submit">Upload File to Folder</button>
+              <% if (locals.successMessage) { %>
+                <p><%= successMessage %></p>
               <% } %>
-              <% for (const folderName of Object.keys(userFolders)) { %>
-                <p><span class="material-symbols-outlined">folder</span><%= folderName %></p>
-              <% } %>
-            <% } %>
-          </div>
-          <form action="/drive/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="uploaded_file">
-            <input type="submit" value="Click to share with your friends!">
-          </form>
+            </form>
+          <% } %>
         <% } %>
       </div>
     </main>

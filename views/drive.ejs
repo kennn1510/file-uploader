@@ -66,6 +66,9 @@
               <% if (locals.successMessage) { %>
                 <p><%= successMessage %></p>
               <% } %>
+              <% if (locals.failureMessage) { %>
+                <p><%= failureMessage %></p>
+              <% } %>
             </form>
           <% } %>
         <% } %>

@@ -95,6 +95,12 @@ router.post("/folder", async (req, res) => {
 });
 
 router.post("/upload", upload.single("uploaded_file"), async (req, res) => {
+  if (!req.file) {
+    return res.render("drive", {
+      failureMessage: `Cannot upload nothing.`,
+      userFolders: await prisma.folder.findMany(),
+    });
+  }
   console.log(req.file);
   console.log(req.body);
   res.render("drive", {

@@ -15,7 +15,7 @@ model User {
 }
 
 model Folder {
-  id             Int      @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   name           String
   path           String   @unique
   createdAt      DateTime @default(now())
@@ -26,6 +26,19 @@ model Folder {
   subFolders     Folder[] @relation("subFolders")
 
   @@index([parentFolderId])
+}
+
+model File {
+  id           Int      @id @default(autoincrement())
+  fileName     String
+  originalName String
+  mimeType     String
+  size         Int
+  uploadDate   DateTime @default(now())
+  folderId     Int
+  folder       Folder   @relation(fields: [folderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([folderId])
 }
 
 model Session {

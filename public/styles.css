@@ -108,12 +108,6 @@ nav {
   grid-area: header;
 }
 
-nav,
-main,
-footer {
-  border: 1px dashed pink;
-}
-
 nav.container > ul {
   display: flex;
   justify-content: flex-start;

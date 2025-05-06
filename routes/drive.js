@@ -115,4 +115,13 @@ router.post("/upload", upload.single("uploaded_file"), async (req, res) => {
   });
 });
 
+router.post("/delete", async (req, res) => {
+  await prisma.folder.delete({
+    where: { id: parseInt(req.body.deletedFolderId) },
+  });
+  res.render("drive", {
+    userFolders: await prisma.folder.findMany(),
+  });
+});
+
 module.exports = router;

@@ -42,7 +42,6 @@ app.use((req, res, next) => {
 
 async function main() {
   console.log(await prisma.user.findMany());
-  console.log(await prisma.folder.findMany());
 }
 
 main()

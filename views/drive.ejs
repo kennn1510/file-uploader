@@ -57,16 +57,21 @@
           <% } %>
           <% if (locals.userFolders) { %>
             <form action="/drive/upload" method="POST" enctype="multipart/form-data">
+              <form action=""></form>
               <fieldset class="folders">
                 <legend>Existing Folders:</legend>
                 <% userFolders.forEach(folder => { %>
                   <div>
-                    <input type="radio" name="folderId" class="radio-button" id="<%= folder.name %>" value="<%= folder.id %>" required>
+                    <input type="radio" name="folderId" class="radio-button" id="<%= folder.name %>" value="<%= folder.id %>" required onclick="toggleVisibility('delete<%= folder.id %>')">
                     <label for="<%= folder.name %>" class="radio-label">
                       <span class="material-symbols-outlined">folder</span><%= folder.name %>
                     </label>
+                    <form action="/drive/delete" method="post" id="delete<%= folder.id %>" style="display: none;">
+                      <input type="hidden" name="deletedFolderId" value="<%= folder.id %>">
+                      <button type="submit">Delete</button>
+                    </form>
                   </div>
-                <% }) %>
+                <% }) %>  
               </fieldset>
               <input type="file" name="uploaded_file">
               <button type="submit">Upload File to Folder</button>
@@ -86,12 +91,20 @@
       const heading = document.querySelector(".letter-animation");
       const text = heading.textContent;
       heading.textContent = "";
-
       for (let i = 0; i < text.length; i++) {
         const span = document.createElement("span");
         span.textContent = text[i];
         span.classList.add("letter");
         heading.appendChild(span);
+      }
+
+      function toggleVisibility(elementId) {
+        const element = document.getElementById(elementId);
+        if (element.style.display === 'none' || element.style.display === '') {
+          element.style.display = 'inline';
+        } else {
+          element.style.display = 'none';
+        }
       }
     </script>
   </body>

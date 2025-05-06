@@ -108,6 +108,12 @@ nav {
   grid-area: header;
 }
 
+nav,
+main,
+footer {
+  border: 1px dashed pink;
+}
+
 nav.container > ul {
   display: flex;
   justify-content: flex-start;
@@ -263,6 +269,10 @@ main {
   align-items: flex-start;
 }
 
+.folder div {
+  list-style-type: none;
+}
+
 .errors-list {
   text-align: left;
 }
@@ -287,6 +297,45 @@ form {
   border: 2px solid var(--darkgray);
   font-weight: bold;
   font-size: larger;
+}
+
+.folders {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.folders div {
+  transition: transform 0.2s ease-out;
+}
+
+.folders div:hover {
+  transform: scale(1.05);
+}
+
+.folders div:active {
+  transform: scale(0.95);
+  transition-duration: 0.1s;
+}
+
+.radio-button {
+  appearance: none;
+  position: absolute;
+}
+
+.radio-label {
+  background-color: var(--whitesmoke);
+  padding: 0.5rem;
+  border-radius: 12px;
+  border: var(--darkgray) solid 2px;
+  cursor: pointer;
+}
+
+.radio-button:checked + .radio-label {
+  background-color: var(--lightsteelblue);
+  font-weight: bold;
 }
 
 footer {

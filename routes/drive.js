@@ -47,6 +47,12 @@ router.post("/folder", async (req, res) => {
   const { folder_name } = req.body; // It gets extracted out
 
   try {
+    if (!folder_name) {
+      return res.render("drive", {
+        msg: "Folder name cannot be empty.",
+        userFolders: userFolders,
+      });
+    }
     // Check if a folder with the same name already exists in the database
     const existingFolder = await prisma.folder.findFirst({
       where: { name: folder_name },

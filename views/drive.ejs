@@ -41,9 +41,15 @@
       <div class="main-container">
         <h1 class="letter-animation">My&nbsp;Drive</h1>
         <% if (locals.user) { %>
-          <p>Create folders to store your files!</p>
+          <% if (locals.userFolders) { %>
+            <% if (locals.msg) { %>
+              <p><%= msg %></p>
+            <% } %>
+          <% } else { %>
+            <p>Create folders to store your files!</p>
+          <% } %>
           <form action="/drive/folder" method="post">
-            <input type="text" placeholder="New folder name" name="folder_name">
+            <input type="text" placeholder="New folder name" name="folder_name" required>
             <button type="submit">New folder</button>
           </form>
           <% if (locals.newFolder) { %>
@@ -51,13 +57,14 @@
           <% } %>
           <% if (locals.userFolders) { %>
             <form action="/drive/upload" method="POST" enctype="multipart/form-data">
-              <fieldset>
+              <fieldset class="folders">
                 <legend>Existing Folders:</legend>
                 <% userFolders.forEach(folder => { %>
                   <div>
-                    <span class="material-symbols-outlined">folder</span>
-                    <input type="radio" name="folderId" id="<%= folder.name %>" value="<%= folder.id %>" required>
-                    <label for="<%= folder.name %>"><%= folder.name %></label>
+                    <input type="radio" name="folderId" class="radio-button" id="<%= folder.name %>" value="<%= folder.id %>" required>
+                    <label for="<%= folder.name %>" class="radio-label">
+                      <span class="material-symbols-outlined">folder</span><%= folder.name %>
+                    </label>
                   </div>
                 <% }) %>
               </fieldset>

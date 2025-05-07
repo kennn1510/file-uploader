@@ -1,29 +1,29 @@
 <nav class="container">
-  <ul>
-    <li>
-      <a href="/">
-        <img src="/favicon/favicon-32x32.png" alt="Cloud Share Logo"/>
-      </a>
-    </li>
-    <li>
-      <a href="/">Home</a>
-    </li>
-    <% if (locals.user) { %>
-    <li>
-      <a href="/drive">My Drive</a>
-    </li>
-    <li>
-      <form action="/logout" method="post">
-        <button type="submit">Log Out</button>
-      </form>
-    </li>
-    <% } else { %>
-    <li>
-      <a href="/login">Login</a>
-    </li>
-    <li>
-      <a href="/signup">Sign Up</a>
-    </li>
-    <% } %>
-  </ul>
+    <ul>
+        <li>
+            <a href="/">
+                <img src="/favicon/favicon-32x32.png" alt="Cloud Share Logo"/>
+            </a>
+        </li>
+        <li>
+            <a href="/">Home</a>
+        </li>
+        <% if (locals.user) { %>
+            <li>
+                <a href="/drive">My Drive</a>
+            </li>
+            <li>
+                <form action="/logout" method="post">
+                    <button type="submit">Log Out</button>
+                </form>
+            </li>
+        <% } else { %>
+            <li>
+                <a href="/login">Login</a>
+            </li>
+            <li>
+                <a href="/signup">Sign Up</a>
+            </li>
+        <% } %>
+    </ul>
 </nav>

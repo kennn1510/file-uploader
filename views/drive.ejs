@@ -1,111 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- Favicon -->
     <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/favicon/apple-touch-icon.png"
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
     />
     <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/favicon/favicon-32x32.png"
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon/favicon-32x32.png"
     />
     <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/favicon/favicon-16x16.png"
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="manifest" href="/favicon/site.webmanifest"/>
     <!-- Ninito Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-      rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+            rel="stylesheet"
     />
     <!-- Folder Static Icon Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=folder" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=folder"/>
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css"/>
     <title>Your Drive</title>
-  </head>
-  <body>
-    <%- include("./partials/nav") %>
-    <main>
-      <div class="main-container">
+</head>
+<body>
+<%- include("./partials/nav") %>
+<main>
+    <div class="main-container">
         <h1 class="letter-animation">My&nbsp;Drive</h1>
         <% if (locals.user) { %>
-          <% if (locals.userFolders) { %>
-            <% if (locals.msg) { %>
-              <p><%= msg %></p>
+            <% if (locals.userFolders) { %>
+                <% if (locals.msg) { %>
+                    <p><%= msg %></p>
+                <% } %>
+            <% } else { %>
+                <p>Create folders to store your files!</p>
             <% } %>
-          <% } else { %>
-            <p>Create folders to store your files!</p>
-          <% } %>
-          <form action="/drive/folder" method="post">
-            <input type="text" placeholder="New folder name" name="folder_name" required>
-            <button type="submit">New folder</button>
-          </form>
-          <% if (locals.newFolder) { %>
-            <p>Successfully created folder: <%= newFolder.name %> with ID: <%= newFolder.id %></p> 
-          <% } %>
-          <% if (locals.userFolders) { %>
-            <form action="/drive/upload" method="POST" enctype="multipart/form-data">
-              <form action=""></form>
-              <fieldset class="folders">
-                <legend>Existing Folders:</legend>
-                <% userFolders.forEach(folder => { %>
-                  <div>
-                    <input type="radio" name="folderId" class="radio-button" id="<%= folder.name %>" value="<%= folder.id %>" required onclick="toggleVisibility('delete<%= folder.id %>')">
-                    <label for="<%= folder.name %>" class="radio-label">
-                      <span class="material-symbols-outlined">folder</span><%= folder.name %>
-                    </label>
-                    <form action="/drive/delete" method="post" id="delete<%= folder.id %>" style="display: none;">
-                      <input type="hidden" name="deletedFolderId" value="<%= folder.id %>">
-                      <button type="submit">Delete</button>
-                    </form>
-                  </div>
-                <% }) %>  
-              </fieldset>
-              <input type="file" name="uploaded_file">
-              <button type="submit">Upload File to Folder</button>
-              <% if (locals.successMessage) { %>
-                <p><%= successMessage %></p>
-              <% } %>
-              <% if (locals.failureMessage) { %>
-                <p><%= failureMessage %></p>
-              <% } %>
+            <form action="/drive/folder" method="post">
+                <label for="new-folder"></label>
+                <input type="text" id="new-folder" placeholder="New folder name" name="folder_name" required>
+                <button type="submit">New folder</button>
             </form>
-          <% } %>
+            <% if (locals.userFolders) { %>
+                <form action="/drive/upload" method="POST" enctype="multipart/form-data">
+                    <fieldset class="folders">
+                        <legend>Existing Folders:</legend>
+                        <form action=""></form>
+                        <% userFolders.forEach(folder => { %>
+                            <div>
+                                <input type="radio" name="folderId" class="radio-button" id="<%= folder.name %>"
+                                       value="<%= folder.id %>" required
+                                       onclick="toggleVisibility('delete<%= folder.id %>')">
+                                <label for="<%= folder.name %>" class="radio-label">
+                                    <span class="material-symbols-outlined">folder</span><%= folder.name %>
+                                </label>
+                                <form action="/drive/delete" method="post" id="delete<%= folder.id %>"
+                                      style="display: none;">
+                                    <input type="hidden" name="deletedFolderId" value="<%= folder.id %>">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </div>
+                        <% }) %>
+                        <input type="file" name="uploaded_file">
+                        <button type="submit">Upload File to Folder</button>
+                    </fieldset>
+                </form>
+                <% if (locals.successMessage) { %>
+                    <p><%= successMessage %></p>
+                <% } %>
+                <% if (locals.failureMessage) { %>
+                    <p><%= failureMessage %></p>
+                <% } %>
+            <% } %>
         <% } %>
-      </div>
-    </main>
-    <%- include("./partials/footer") %>
-    <script>
-      const heading = document.querySelector(".letter-animation");
-      const text = heading.textContent;
-      heading.textContent = "";
-      for (let i = 0; i < text.length; i++) {
-        const span = document.createElement("span");
-        span.textContent = text[i];
-        span.classList.add("letter");
-        heading.appendChild(span);
-      }
+    </div>
+</main>
+<%- include("./partials/footer") %>
+<script>
+  const heading = document.querySelector(".letter-animation");
+  const text = heading.textContent;
+  heading.textContent = "";
 
-      function toggleVisibility(elementId) {
-        const element = document.getElementById(elementId);
-        if (element.style.display === 'none' || element.style.display === '') {
-          element.style.display = 'inline';
-        } else {
-          element.style.display = 'none';
-        }
-      }
-    </script>
-  </body>
+  for (let i = 0; i < text.length; i++) {
+    const span = document.createElement("span");
+    span.textContent = text[i];
+    span.classList.add("letter");
+    heading.appendChild(span);
+  }
+
+  function toggleVisibility(elementId) {
+    const element = document.getElementById(elementId);
+    if (element.style.display === 'none' || element.style.display === '') {
+      element.style.display = 'inline';
+    } else {
+      element.style.display = 'none';
+    }
+  }
+</script>
+</body>
 </html>

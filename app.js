@@ -29,7 +29,7 @@ app.use(
       dbRecordIdIsSessionId: true,
       dbRecordIdFunction: undefined,
     }),
-  })
+  }),
 );
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false })); // Parses URL-encoded request bodies and processes into req.body
@@ -42,6 +42,7 @@ app.use((req, res, next) => {
 
 async function main() {
   console.log(await prisma.user.findMany());
+  console.log(await prisma.folder.findMany());
 }
 
 main()

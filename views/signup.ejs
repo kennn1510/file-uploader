@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="/favicon/apple-touch-icon.png"
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/favicon/apple-touch-icon.png"
     />
     <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/favicon/favicon-32x32.png"
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon/favicon-32x32.png"
     />
     <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/favicon/favicon-16x16.png"
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon/favicon-16x16.png"
     />
-    <link rel="manifest" href="/favicon/site.webmanifest" />
+    <link rel="manifest" href="/favicon/site.webmanifest"/>
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=lock"
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=lock"
     />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css"/>
     <title>Sign Up Form</title>
-  </head>
-  <body>
-    <%- include("./partials/nav") %>
-    <main>
-      <div class="main-container">
+</head>
+<body>
+<%- include("./partials/nav") %>
+<main>
+    <div class="main-container">
         <p><span>&#8594;]</span></p>
         <h2>Sign up</h2>
         <p>
-          Connect above the clouds! Sign up to easily share your files with
-          friends in your own cozy corner. For free.
+            Connect above the clouds! Sign up to easily share your files with
+            friends in your own cozy corner. For free.
         </p>
         <%- include("./partials/errors") %>
         <form action="/signup" method="post">
-          <label for="email"></label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="✉️ Email"
-            value="<%= typeof email == 'undefined' ? '' : email %>"
-            required
-          />
-          <br />
-          <label for="password"></label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="🔒 Password"
-            required
-          />
-          <br />
-          <label for="confirmpassword"></label>
-          <input
-            type="password"
-            id="confirmpassword"
-            name="confirmpassword"
-            placeholder="🔐 Confirm Password"
-            required
-          />
-          <br />
-          <button type="submit" class="submit-button">Get Started</button>
-          <p>Already have an account? <a href="/login">Login</a></p>
+            <label for="email"></label>
+            <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="✉️ Email"
+                    value="<%= typeof email == 'undefined' ? '' : email %>"
+                    required
+            />
+            <br/>
+            <label for="password"></label>
+            <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="🔒 Password"
+                    required
+            />
+            <br/>
+            <label for="confirmpassword"></label>
+            <input
+                    type="password"
+                    id="confirmpassword"
+                    name="confirmpassword"
+                    placeholder="🔐 Confirm Password"
+                    required
+            />
+            <br/>
+            <button type="submit" class="submit-button">Get Started</button>
+            <p>Already have an account? <a href="/login">Login</a></p>
         </form>
-      </div>
-    </main>
-    <%- include("./partials/footer") %>
-  </body>
+    </div>
+</main>
+<%- include("./partials/footer") %>
+</body>
 </html>
